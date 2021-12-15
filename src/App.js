@@ -1,16 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import "../src/App.css";
 
 function App() {
-  const [title, setTitle] = useState("buy");
+  const [title, setTitle] = useState("");
   const [tasks, setTasks] = useState([]);
   const pendingTask = tasks.length;
+  const inputRef = useRef();
+  const listRef = useRef();
+  useEffect(() => {
+    document.title = pendingTask + " Tasks remaining";
+  }, [pendingTask]);
+
+  useEffect(() => {
+    if (pendingTask === 0) {
+      alert("Felicidades has completado todas las tareas!!!");
+    }
+  }, [pendingTask]);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   return (
     <div>
       <h1> Task Manager</h1>
       <p>Pendding tasks: {pendingTask}</p>
-      <div>
+      <form
+        onSubmit={(event) => {
+          prevent;
+        }}
+      >
         <input
+          ref={inputRef}
           value={title}
           type="text"
           onChange={(event) => {
@@ -22,24 +43,33 @@ function App() {
             setTitle("");
           }}
         >
-          {" "}
           Empty!
         </button>
         <button
+          type="submit"
           onClick={() => {
             setTasks([title, ...tasks]);
             setTitle("");
+            inputRef.current.focus();
+            listRef.current.scrollTop = 0;
           }}
         >
-          {" "}
           Add!
         </button>
-        <ul>
+        <ul class="task-list">
           {tasks.map((task) => {
-            return <li>{task}</li>;
+            return (
+              <li
+                onClick={() => {
+                  setTasks(tasks.filter((t) => t !== task));
+                }}
+              >
+                {task}
+              </li>
+            );
           })}
         </ul>
-      </div>
+      </form>
     </div>
   );
 }
