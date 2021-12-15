@@ -53,7 +53,6 @@ function App() {
           );
         })}
       </ul>
-      <p> tus muertos </p>
     </div>
   );
 }
