@@ -50,6 +50,7 @@ function App() {
             >
               {task}
             </li>
+            <p> tus muertos </p>
           );
         })}
       </ul>
