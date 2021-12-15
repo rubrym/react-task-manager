@@ -1,21 +1,17 @@
 import { useEffect, useState, useRef } from "react";
-import "../src/App.css";
+import "./App.css";
 
 function App() {
   const [title, setTitle] = useState("");
   const [tasks, setTasks] = useState([]);
-  const pendingTask = tasks.length;
   const inputRef = useRef();
   const listRef = useRef();
-  useEffect(() => {
-    document.title = pendingTask + " Tasks remaining";
-  }, [pendingTask]);
+
+  const pendingTasks = tasks.length;
 
   useEffect(() => {
-    if (pendingTask === 0) {
-      alert("Felicidades has completado todas las tareas!!!");
-    }
-  }, [pendingTask]);
+    document.title = pendingTasks + " tasks remaining";
+  }, [pendingTasks]);
 
   useEffect(() => {
     inputRef.current.focus();
@@ -23,53 +19,40 @@ function App() {
 
   return (
     <div>
-      <h1> Task Manager</h1>
-      <p>Pendding tasks: {pendingTask}</p>
+      <h1>Task Manager</h1>
+      <p>Pending tasks: {pendingTasks}</p>
       <form
         onSubmit={(event) => {
-          prevent;
+          event.preventDefault();
+          setTasks([title, ...tasks]);
+          setTitle("");
+          inputRef.current.focus();
+          listRef.current.scrollTop = 0;
         }}
       >
         <input
           ref={inputRef}
-          value={title}
           type="text"
+          value={title}
           onChange={(event) => {
             setTitle(event.target.value);
           }}
         />
-        <button
-          onClick={() => {
-            setTitle("");
-          }}
-        >
-          Empty!
-        </button>
-        <button
-          type="submit"
-          onClick={() => {
-            setTasks([title, ...tasks]);
-            setTitle("");
-            inputRef.current.focus();
-            listRef.current.scrollTop = 0;
-          }}
-        >
-          Add!
-        </button>
-        <ul class="task-list">
-          {tasks.map((task) => {
-            return (
-              <li
-                onClick={() => {
-                  setTasks(tasks.filter((t) => t !== task));
-                }}
-              >
-                {task}
-              </li>
-            );
-          })}
-        </ul>
+        <button type="submit">Add</button>
       </form>
+      <ul ref={listRef} className="task-list">
+        {tasks.map((task) => {
+          return (
+            <li
+              onClick={() => {
+                setTasks(tasks.filter((t) => t !== task));
+              }}
+            >
+              {task}
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }
