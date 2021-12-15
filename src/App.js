@@ -1,23 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
 
 function App() {
+  const [title, setTitle] = useState("buy");
+  const [tasks, setTasks] = useState([]);
+  const pendingTask = tasks.length;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div>
+      <h1> Task Manager</h1>
+      <p>Pendding tasks: {pendingTask}</p>
+      <div>
+        <input
+          value={title}
+          type="text"
+          onChange={(event) => {
+            setTitle(event.target.value);
+          }}
+        />
+        <button
+          onClick={() => {
+            setTitle("");
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          {" "}
+          Empty!
+        </button>
+        <button
+          onClick={() => {
+            setTasks([title, ...tasks]);
+            setTitle("");
+          }}
+        >
+          {" "}
+          Add!
+        </button>
+        <ul>
+          {tasks.map((task) => {
+            return <li>{task}</li>;
+          })}
+        </ul>
+      </div>
     </div>
   );
 }
