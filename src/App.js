@@ -39,6 +39,7 @@ function App() {
           }}
         />
         <button type="submit">Add</button>
+        <button onClick={() => setTasks([])}>Delete All Tasks!</button>
       </form>
       <ul ref={listRef} className="task-list">
         {tasks.map((task) => {
