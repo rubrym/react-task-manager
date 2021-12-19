@@ -18,7 +18,7 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <div class="container">
       <h1>Task Manager</h1>
       <p>Pending tasks: {pendingTasks}</p>
       <form
